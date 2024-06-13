@@ -26,6 +26,11 @@ monitor sync-logs <cluster name>
 2024-05-17 08:02:10.239 DEBUG cluster_sync.cnbng-tme-lab-2024: Cluster sync successful
 ```
 
+- After deployment is complete, we can run step2 to initialize control plane ops center
+```
+python3 day0-step2.py yaml/vmware_aio_inputs.yaml
+```
+
 # Default Login Credentials (user/ password)
 - cnBNG CP Ops Center: admin/ Cisco@123
 - CEE Ops Center: admin/ Cisco@123
