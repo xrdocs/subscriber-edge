@@ -1,0 +1,49 @@
+# _________________________________________________
+#
+# Cloud BNG/ Cisco Subscriber Edge Demo Portal
+#
+# Author: Gurpreet Dhaliwal, TME MiG
+# __________________________________________________
+
+images:
+    bng:
+      name: bng.2024.02.0
+      url: http://192.168.107.152/images/CP/bng.2024.02.0.SPA.tgz
+      sha256: 4956997bfdebf8a9e1157fe9ce0284701d7fd2ee8c0c189fb3d8cc42553afd6f
+    cee:
+      name: cee-2024.02.1.14
+      url: http://192.168.107.152/images/CP/cee-2024.02.1.14.SPA.tgz
+      sha256: 2d2855a224b1da337c257f1c2943e4ecc3606c26bfce22a4168608af3418a260
+    host_profile:
+      name: bios-ht-25
+      url: http://192.168.107.152/images/CP/ht.tgz
+      sha256: aa7e240f2b785a8c8d6b7cd6f79fe162584dc01b7e9d32a068be7f6e5055f664
+
+cnbng_cp:
+  cluster:
+     name: cnbng-cndp-aio
+     environment: baremetal
+     type: aio
+     ntp: ntp.esl.cisco.com
+     istio: 'false'
+     cee_ops_center:
+        ssh_port: 2023
+        netconf_port: 3023
+     bng_ops_center:
+        ssh_port: 2024
+        netconf_port: 3024
+  node:
+    ip: 192.168.107.214
+    gateway: 192.168.107.129
+    dns: 64.104.128.236
+    domain: cisco.com
+
+cimc:
+  ip: 192.168.107.168
+  user: admin
+  password: Bgl16dlab@!23
+
+smi_deployer:
+  ip: 192.168.107.174
+  user: 'admin'
+  password: 'Cisco@123'

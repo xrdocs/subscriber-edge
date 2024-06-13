@@ -1,0 +1,240 @@
+<!--
+# _________________________________________________
+#
+# Cloud BNG/ Cisco Subscriber Edge Demo Portal
+#
+# Author: Gurpreet Dhaliwal, TME MiG
+#__________________________________________________
+-->
+
+<config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <software xmlns="http://cisco.com/sp/cloud/infra">
+		<cnf>
+			<name>{{images.bng.name}}</name>
+			<url>{{images.bng.url}}</url>
+			<sha256>{{images.bng.sha256}}</sha256>
+			<description>bng-products</description>
+		</cnf>
+		<cnf>
+			<name>{{images.cee.name}}</name>
+			<url>{{images.cee.url}}</url>
+			<sha256>{{images.cee.sha256}}</sha256>
+			<description>cee-products</description>
+		</cnf>
+      	<host-profile>
+	        <name>{{images.host_profile.name}}</name>
+	        <url>{{images.host_profile.url}}</url>
+	        <sha256>{{images.host_profile.sha256}}</sha256>
+      </host-profile>
+    </software>
+    <environments xmlns="http://cisco.com/sp/cloud/infra">
+      <name>bare-metal</name>
+      <ucs-server/>
+    </environments>
+    <clusters xmlns="http://cisco.com/sp/cloud/infra">
+      <name>{{cnbng_cp.cluster.name}}</name>
+      <environment>bare-metal</environment>
+	  <auto-sync></auto-sync>
+      <configuration>
+        <master-virtual-ip>{{cnbng_cp.node.ip}}</master-virtual-ip>
+        <master-virtual-ip-interface>eno1</master-virtual-ip-interface>
+        <enable-pod-security-policy>false</enable-pod-security-policy>
+        <pod-subnet>192.204.0.0/16</pod-subnet>
+        <allow-insecure-registry>true</allow-insecure-registry>
+        <restrict-logging>false</restrict-logging>
+        <enable-network-policy>false</enable-network-policy>
+        <enable-ssh-firewall-rules>false</enable-ssh-firewall-rules>
+      </configuration>
+      <node-defaults>
+        <ssh-username>cloud-user</ssh-username>
+        <ssh-connection-private-key>-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEAwx+LkHa8U74BYN9rM3MS1H8K8ZiOdd8kqA5I8553KH75C/yV
+ddtiQLBh7y+k9/YwUSsrbj6S4b6/Wb8CpTmeQXnlAfmY/LbmXUEaiKb6J4bXBEnN
+daETOsOXUIx1CGg3Sv7wUEIOYUkNAlc71VNg0vBPnLDGwaD82lFYvqj46nwRLfTM
+zMrHNQ551zdXxTA1c0wLG+ZoLf3C43H26OqlYC7fYqxSfwH6EBpbUIvTOL3obKa2
+GZ4Bi+VPfqrfap+JW2sU7dh6jUCQLpO9NS1YWTVygnx5oIOnp9yGJO2GSNSIYQJ2
+AKpUC7gu3X/Q6hOotIgfHk7kYeSNirD1KwixrwIDAQABAoIBADKgQKne5MYlil4E
+GeBjfwM7Yy+EEZJrrysbabor52bOave9NVo67aczHHXeusLLUYX92WrlOV7xCtzS
+PnF4HaOHaO+2PwdyvRp9BdFm4YjX53npXDGk9URN8zim+MaRo6cFtnxcZza+qW1u
+DMwwsfKI/178TtV2W6SZbpkpZkwQJ/cN1fljxuQYubOujMZErc1Q7TlIQYrG8XVz
+aOTVkYBU+O2DOKkWp4AM9qe/0RIdjmz1ZZHRB83iF3/OaU3j2mhlhRQwTiS3jcGX
+kWoovz/GmFAcw+VSz81tz2UFmGNczkl8F5t4afYq31M7r+restSd6Mc7dcqWA7pR
+Yflz7SECgYEA+qleQDAxe9cSRyGk0aCXV7NKQnvmIReSiRxibNne2FTnLaBH7iM7
+Ge8XT23gFLCvM1qmpaLxjQZEP4A7WTaZuTEQAvVHYM+4m+1XDz4+ePaSCFwru8Q/
+LvE0h45JGfuHiXIWQNsyycSnDa+50BQ1a+EruzsmdHDvVnhO/QK0gzsCgYEAx0dg
+VbOjGzEvuGTfTI8qqRYz2XQjSKr6IHqRGY/h2hVcJo0Is+fr9n2QlebJ9oIOVnw7
+pSlPgnMNcI9b74aCGuVnVUW/23TRkTvq6goNBa2V++d9EHPNo2gahc1tuJZzkp8I
+nZONBHzU8jwe9nBbK7uuz9i8cgSnMaWbS6Q8PB0CgYEAoXzoWdYyqyQ+hFEqjFs3
+5ap+lyKXeo5jO65rwtECfsEERyLR9JwCAY1FqUiSawIBfcZTQrcdg8ubwIVutuU0
+WFlBhYZcPATXXK2lvw5M1UWVg4lOK6QdSLLhMsv6UKD6CxTTPWl66P6m2Wxy+5lp
+aV0h/Xf4KGBx8XWE/f/2J+0CgYEAlfJGMZZut4pGLwhv4WqkngBf2VMDLa3Bcejn
+/4T9W5zQ7w0WLFDpg1quDa1P8JWh9j+ancc81Zp+1WB5u/zJLzXIkChgmeAHxLGC
+LMKNU+VuwtJHj7ajWD6AHogZ9Ff49K2HzRH2fRb1IKROY/7dC0Y43ppmCaEosTm8
+ZalZzZ0CgYAF6KnlPw1qbpVZYyVcPw38omeisMs/92ovf4oqzJpZ5zCW1iKKRpQR
+q4oDLca0zJS/AUmXFTIG//VHvsna4A2JrmNS4rI+bEgwSDrRKHmX8Idctdu1ifgS
+rRtv1s5RfTZ67eWVYE6rUn1+EFBZwAzZorOXL3CzbjZEXUCJeOH6Lw==
+-----END RSA PRIVATE KEY-----</ssh-connection-private-key>
+		  <initial-boot>
+		  <default-user>cloud-user</default-user>
+		  <default-user-ssh-public-key>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDH4uQdrxTvgFg32szcxLUfwrxmI513ySoDkjznncofvkL/JV122JAsGHvL6T39jBRKytuPpLhvr9ZvwKlOZ5BeeUB+Zj8tuZdQRqIpvonhtcESc11oRM6w5dQjHUIaDdK/vBQQg5hSQ0CVzvVU2DS8E+csMbBoPzaUVi+qPjqfBEt9MzMysc1DnnXN1fFMDVzTAsb5mgt/cLjcfbo6qVgLt9irFJ/AfoQGltQi9M4vehsprYZngGL5U9+qt9qn4lbaxTt2HqNQJAuk701LVhZNXKCfHmgg6en3IYk7YZI1IhhAnYAqlQLuC7df9DqE6i0iB8eTuRh5I2KsPUrCLGv cloud-user@inception</default-user-ssh-public-key>
+          <default-user-password>Cisco@123</default-user-password>
+          <default-user-password-expiration-days>0</default-user-password-expiration-days>
+          <netplan>
+            <ethernets>
+              <device-id>eno1</device-id>
+              <dhcp4>false</dhcp4>
+              <dhcp6>false</dhcp6>
+              <gateway4>{{cnbng_cp.node.gateway}}</gateway4>
+              <nameservers>
+                <search>{{cnbng_cp.node.domain}}</search>
+                <addresses>{{cnbng_cp.node.dns}}</addresses>
+              </nameservers>
+            </ethernets>
+            <ethernets>
+              <device-id>eno2</device-id>
+              <dhcp4>false</dhcp4>
+              <dhcp6>false</dhcp6>
+            </ethernets>
+            <ethernets>
+              <device-id>eno5</device-id>
+              <dhcp4>false</dhcp4>
+              <dhcp6>false</dhcp6>
+            </ethernets>
+            <ethernets>
+              <device-id>eno6</device-id>
+              <dhcp4>false</dhcp4>
+              <dhcp6>false</dhcp6>
+            </ethernets>
+            <ethernets>
+              <device-id>enp216s0f0</device-id>
+              <dhcp4>false</dhcp4>
+              <dhcp6>false</dhcp6>
+            </ethernets>
+            <ethernets>
+              <device-id>enp216s0f1</device-id>
+              <dhcp4>false</dhcp4>
+              <dhcp6>false</dhcp6>
+            </ethernets>
+            <ethernets>
+              <device-id>enp94s0f0</device-id>
+              <dhcp4>false</dhcp4>
+              <dhcp6>false</dhcp6>
+            </ethernets>
+            <ethernets>
+              <device-id>enp94s0f1</device-id>
+              <dhcp4>false</dhcp4>
+              <dhcp6>false</dhcp6>
+            </ethernets>
+          </netplan>
+        </initial-boot>
+        <ucs-server>
+          <cimc>
+            <user>admin</user>
+            <storage-adaptor>
+              <create-virtual-drive>true</create-virtual-drive>
+            </storage-adaptor>
+            <remote-management>
+              <sol>
+                <enabled>true</enabled>
+                <baud-rate>115200</baud-rate>
+                <comport>com0</comport>
+                <ssh-port>2400</ssh-port>
+              </sol>
+            </remote-management>
+            <networking>
+              <ntp>
+                <enabled>true</enabled>
+                <servers>
+                  <url>{{cnbng_cp.cluster.ntp}}</url>
+                </servers>
+              </ntp>
+            </networking>
+          </cimc>
+        </ucs-server>
+        <os>
+          <ntp>
+            <servers>
+              <url>{{cnbng_cp.cluster.ntp}}</url>
+            </servers>
+            <enabled>true</enabled>
+          </ntp>
+        </os>
+      </node-defaults>
+      <nodes>
+        <name>aio</name>
+        <host-profile>{{images.host_profile.name}}</host-profile>
+        <k8s>
+          <node-type>master</node-type>
+          <ssh-ip>{{cnbng_cp.node.ip}}</ssh-ip>
+          <node-ip>{{cnbng_cp.node.ip}}</node-ip>
+          <node-labels>
+            <key>disktype</key>
+            <value>ssd</value>
+          </node-labels>
+          <node-labels>
+            <key>smi.cisco.com/node-type</key>
+            <value>oam</value>
+          </node-labels>
+        </k8s>
+        <ucs-server>
+          <cimc>
+            <user>{{cimc.user}}</user>
+            <password>{{cimc.password}}</password>
+            <ip-address>{{cimc.ip}}</ip-address>
+          </cimc>
+        </ucs-server>
+        <initial-boot>
+          <netplan>
+            <ethernets>
+              <device-id>eno1</device-id>
+              <addresses>{{cnbng_cp.node.ip}}/24</addresses>
+              <gateway4>{{cnbng_cp.node.gateway}}</gateway4>
+            </ethernets>
+          </netplan>
+        </initial-boot>
+      </nodes>
+			<ops-centers>
+				<app-name>bng</app-name>
+				<instance>bng</instance>
+				<repository-local>{{images.bng.name}}</repository-local>
+				<sync-default-repository>true</sync-default-repository>
+				<netconf-ip>{{cnbng_cp.node.ip}}</netconf-ip>
+				<netconf-port>{{cnbng_cp.cluster.bng_ops_center.netconf_port}}</netconf-port>
+				<ssh-ip>{{cnbng_cp.node.ip}}</ssh-ip>
+				<ssh-port>{{cnbng_cp.cluster.bng_ops_center.ssh_port}}</ssh-port>
+				<ingress-hostname>{{cnbng_cp.node.ip}}.nip.io</ingress-hostname>
+				<initial-boot-parameters>
+					<use-volume-claims>true</use-volume-claims>
+					<first-boot-password>Cisco@123</first-boot-password>
+					<auto-deploy>false</auto-deploy>
+					<single-node>true</single-node>
+				</initial-boot-parameters>
+			</ops-centers>
+			<ops-centers>
+				<app-name>cee</app-name>
+				<instance>global</instance>
+				<repository-local>{{images.cee.name}}</repository-local>
+				<sync-default-repository>true</sync-default-repository>
+				<netconf-ip>{{cnbng_cp.node.ip}}</netconf-ip>
+				<netconf-port>{{cnbng_cp.cluster.cee_ops_center.netconf_port}}</netconf-port>
+				<ssh-ip>{{cnbng_cp.node.ip}}</ssh-ip>
+				<ssh-port>{{cnbng_cp.cluster.cee_ops_center.ssh_port}}</ssh-port>
+				<ingress-hostname>{{cnbng_cp.node.ip}}.nip.io</ingress-hostname>
+				<initial-boot-parameters>
+					<use-volume-claims>true</use-volume-claims>
+					<first-boot-password>Cisco@123</first-boot-password>
+					<auto-deploy>true</auto-deploy>
+					<single-node>true</single-node>
+				</initial-boot-parameters>
+			</ops-centers>
+      <addons>
+        <ingress>
+          <bind-ip-address>{{cnbng_cp.node.ip}}</bind-ip-address>
+          <enabled>true</enabled>
+        </ingress>
+        <istio>
+          <enabled>{{cnbng_cp.cluster.istio}}</enabled>
+        </istio>
+      </addons>
+    </clusters>
+</config>
