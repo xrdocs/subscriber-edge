@@ -31,3 +31,4 @@ print("Deployment of cnBNG CP Cluster should have started. To monitor deployment
 print("\n1. SMI Deployer, using: ssh admin@"+data['smi_deployer']['ip']+" -p 2022")
 print("2. and to check progress use: \"monitor sync-logs "+data['cnbng_cp']['cluster']['name']+"\" command")
 print("====================================================================================")
+

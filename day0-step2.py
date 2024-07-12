@@ -29,6 +29,3 @@ else:
     print("Error: Unknown Deployment Environment and Type")
     exit()
 
-
-
-
