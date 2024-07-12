@@ -1,4 +1,6 @@
-This repo is to deploy cnBNG Control Plane in AIO (All-In-One) form, which is a single node kubernetes cluster deployment of cnBNG CP. This utility generates SMI Deployer configuration and pushes it to the SMI deployer using netconf to start deployment of cnBNG CP Ops Center. Once cnBNG CP Ops Center is deployed, same tool can be leveraged to push desired initial configuration for the Control Plane which sets CDL and the POD deployment schema. 
+This repo is to deploy cnBNG Control Plane in AIO (All-In-One) form, which is a single node kubernetes cluster deployment of cnBNG CP. This utility generates SMI Deployer configuration and pushes it to the SMI deployer using netconf to start deployment of cnBNG CP Ops Center. 
+
+Once cnBNG CP Ops Center is deployed, same tool can be leveraged to push desired initial configuration for the Control Plane which sets CDL and the POD deployment schema. 
 
 # Prerequisites
 - SMI Deployer (Inception)
