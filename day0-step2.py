@@ -21,11 +21,17 @@ with open(sys.argv[1]) as f:
 print("\n")
 
 
-if(data['cnbng_cp']['cluster']['environment']=="vmware" and data['cnbng_cp']['cluster']['type']=="aio"):
+environment, deployment_type = dl.getDeploymentEnvironmentType(data)
+
+if(environment=="vmware" and deployment_type=="aio"):
     dl.init_vmware_aio(data)
-elif(data['cnbng_cp']['cluster']['environment']=="baremetal" and data['cnbng_cp']['cluster']['type']=="aio"):
+elif(environment=="baremetal" and deployment_type=="aio"):
     dl.init_cndp_aio(data)
+elif(environment=="baremetal" and deployment_type=="aio_geo-red"):
+    dl.init_cndp_aio_gr(data)
 else:
     print("Error: Unknown Deployment Environment and Type")
     exit()
+
+
 

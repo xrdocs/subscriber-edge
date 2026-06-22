@@ -1,0 +1,160 @@
+# _________________________________________________
+#
+# Cloud BNG/ Cisco Subscriber Edge Day 0 Deployment - 3 Server CNDP
+#
+# Author: Gurpreet Dhaliwal, TME MiG
+# __________________________________________________
+
+images:
+    bng:
+      name: bng.2022.04.0
+      url: http://192.168.107.152/images-2022/cnbng-cp/bng.2022.04.0.SPA.tgz
+      sha256: 66e1ad17183226dc0b46a3e62b85e9b992b42c1d69e84f0e8b397c553c6901d7
+    cee:
+      name: cee-2022.02.1.i08
+      url: http://192.168.107.152/images-2022/cnbng-cp/cee-2022.02.1.i08.tar
+      sha256: bbff1b7d1f66595c0ffa399e7ae58884e1b1a8c5a61e19398006c53ab3f635b0
+    host_profile:
+      name: bios-ht-25
+      url: http://192.168.107.152/images/CP/ht.tgz
+      sha256: aa7e240f2b785a8c8d6b7cd6f79fe162584dc01b7e9d32a068be7f6e5055f664
+cnbng_cp:
+  node_defaults:
+    route: 10.10.10.0/24 # reverse host route to access nodes via mgmt network
+    gateway: 10.105.254.1 # gateway for mgmt network
+    dns: 64.104.128.236
+    domain: cisco.com
+    bond_interfaces:
+      bd0:
+        links: [ eno5, eno6 ] 
+      bd1:
+        links: [ enp94s0f1 ]
+      bd2:
+        links: [ enp94s0f0 ]
+  cluster:
+    name: cnbng-cndp-3server-geored
+    environment: baremetal
+    type: 3server_geo-red
+    master:
+      vip1: 1.1.125.100 # this VIP is for k8s network
+      vip2: 10.105.254.91 # this VIP is for mgmt network
+    networks:
+      k8s:
+        id: 125  # VLAN ID
+        intf: bd0
+      mgmt:
+        id: 325  # VLAN ID
+        intf: bd0
+      inttcp:
+        id: 164  # VLAN ID
+        intf: bd1
+        vip1: 1.1.164.100
+        vip2: 1.1.164.101
+        broadcast: 1.1.164.255
+      intudp:
+        id: 163  # VLAN ID
+        intf: bd2
+        vip1: 1.1.163.100
+      n4:
+        id: 161  # VLAN ID
+        intf: bd2
+        vip1: 72.72.100.1  # this IP (advertised by BGP) is used to connect UPs with Instance-1 of this cluster
+        vip2: 73.73.100.2  # this IP (advertised by BGP) is used to connect UPs with Instance-2 of this cluster
+      cdl:
+        id: 165  # VLAN ID
+        intf: bd1
+        vip1: 1.1.165.100
+        vip2: 1.1.165.101
+        vip3: 1.1.165.102
+        broadcast: 1.1.165.255
+    ntp: ntp.esl.cisco.com
+    istio: 'false'
+    cee_ops_center:
+      ssh_port: 2023
+      netconf_port: 3023
+    bng_ops_center:
+      ssh_port: 2024
+      netconf_port: 3024
+  ucs01:
+    networks:
+      k8s:
+        ip: 1.1.125.97/28
+        gateway: 1.1.125.101
+      mgmt:
+        ip: 10.105.254.86/24
+      inttcp:
+        ip: 1.1.164.3/24
+        route:
+          to: 2.2.164.0/24
+          via: 1.1.164.254
+      intudp:
+        ip: 1.1.163.3/24
+      n4:
+        ip: 1.1.161.3/28
+      bgp:
+        ebgp1:
+          id: 152
+          intf: enp216s0f0
+          ip: 1.1.152.1/24
+        ebgp2:
+          id: 151
+          intf: enp94s0f0
+          ip: 1.1.151.1/24
+    cimc:
+      ip: 10.105.254.151
+      user: admin
+      password: Bgl16dlab@!23
+  ucs02:
+    networks:
+      k8s:
+        ip: 1.1.125.98/28
+        gateway: 1.1.125.101
+      mgmt:
+        ip: 10.105.254.87/24
+      inttcp:
+        ip: 1.1.164.4/24
+        route:
+          to: 2.2.164.0/24
+          via: 1.1.164.254
+      intudp:
+        ip: 1.1.163.4/24
+      n4:
+        ip: 1.1.161.4/28
+      cdl:
+        ip: 1.1.165.3/24
+        route:
+          to: 2.2.165.0/24
+          via: 1.1.165.254
+      bgp:
+        ebgp1:
+          id: 152
+          intf: enp216s0f0
+          ip: 1.1.152.2/24
+        ebgp2:
+          id: 151
+          intf: enp94s0f0
+          ip: 1.1.151.2/24
+    cimc:
+      ip: 10.105.254.152
+      user: admin
+      password: Bgl16dlab@!23
+  ucs03:
+    networks:
+      k8s:
+        ip: 1.1.125.99/28
+        gateway: 1.1.125.101
+      mgmt:
+        ip: 10.105.254.88/24
+      cdl:
+        ip: 1.1.165.4/24
+        route:
+          to: 2.2.165.0/24
+          via: 1.1.165.254
+    cimc:
+      ip: 10.105.254.153
+      user: admin
+      password: Bgl16dlab@!23
+smi_deployer:
+  ip: 192.168.107.174
+  user: 'admin'
+  password: 'Cisco@123'

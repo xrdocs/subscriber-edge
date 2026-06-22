@@ -1,0 +1,88 @@
+# _________________________________________________
+#
+# Cloud BNG/ Cisco Subscriber Edge Day0 Deployment of CP GR AIO: Cluster-2
+#
+# Author: Gurpreet Dhaliwal, TME MiG
+# __________________________________________________
+
+images:
+    bng:
+      name: bng.ntt.dev
+      url: http://192.168.107.152/images/CP/2026.02.1.i07/bng-dev-ntt-demo-private.SSA.tgz
+      sha256: c94df243a3904a25b453580a4b74b0171e267af3dd3d2f7087105abcf3bb2b8a
+    cee:
+      name: cee-2026.02.1.i07
+      url: http://192.168.107.152/images/CP/2026.02.1.i07/cee-2026.02.1.i07.tar
+      sha256: 469ccbf808d0aa32e40d50aa97f88d74129cc346d0b0ac82cc8087f9e65fbe69
+    host_profile:
+      name: bios-ht-25
+      url: http://192.168.107.152/images/CP/ht.tgz
+      sha256: aa7e240f2b785a8c8d6b7cd6f79fe162584dc01b7e9d32a068be7f6e5055f664
+
+cnbng_cp:
+  node_defaults:
+    bond_interfaces:
+      bd1:
+        links: [ enp216s0f0, enp216s0f1 ]
+  bgp:
+    asn: 65152
+    aspath_prepend: 'true'
+    neighbor: 172.102.102.4
+    remote_as: 100
+  cluster:
+    name: cnbng-cluster-2
+    id: 2
+    remote_id: 1
+    environment: baremetal
+    type: aio_geo-red
+    ntp: 72.163.32.44 #10.64.58.51 # ntp.esl.cisco.com
+    istio: 'false'
+    cee_ops_center:
+        ssh_port: 2023
+        netconf_port: 3023
+    bng_ops_center:
+        ssh_port: 2024
+        netconf_port: 3024
+    networks:
+      management:
+        intf: eno1
+        gateway: 192.168.107.129 # gateway for mgmt network
+        dns: 72.163.128.140
+        domain: cisco.com
+      service:
+        id: 102  # VLAN ID
+        intf: bd1
+        vip1: 1.1.100.1
+        vip1_port: 3799
+        vip2: 2.2.100.2
+        vip2_port: 3799
+  node:
+    name: aio
+    networks:
+      management:
+        ip: 192.168.107.215
+        mask: 25
+      service:
+        ip: 172.102.102.102
+        mask: 24
+        db_port: 8882
+        kafka_port: 10001
+        remote_ip: 172.101.101.101
+        remote_db_port: 8882
+        remote_kafka_port: 10001
+        geo_port1: 7001
+        geo_port2: 7002
+        geo_port3: 7003
+        geo_port4: 7004
+        route:
+          to: 172.101.101.0/24
+          via: 172.102.102.4
+cimc:
+  ip: 192.168.107.170
+  user: admin
+  password: Bgl16dlab@!23
+
+smi_deployer:
+  ip: 192.168.107.175
+  user: 'admin'
+  password: 'Cisco@123'
